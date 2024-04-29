@@ -152,10 +152,11 @@ function gameController() {
         myGameboard.modifyBoard(player.marker, `${playerChoice()}`);
       } else if (activePlayer === computer) {
         myGameboard.modifyBoard(computer.marker, `${aiMove()}`);
+        myGameboard.displayGameboard();
       }
-      myGameboard.displayGameboard();
       let win = isWinning(board);
       if (win === true) {
+        myGameboard.displayGameboard();
         console.log(`Winner is ${activePlayer.name}`);
         return true;
       }
