@@ -98,6 +98,7 @@ function gameController() {
 
   let map1 = myGameboard.map1;
   let board = myGameboard.board;
+  
   const player = {
     name: "fataldinazor",
     marker: playerInfo.playerMarker(),

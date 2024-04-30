@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic-Tac-Toe</title>
-</head>
-<body>
-    
-</body>
-<script src="./script.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="header">
+      <!-- <h2>Tic-Tac-Toe</h2> -->
+    </div>
+    <div class="mainContainer"></div>
+    <dialog class="playerInfo">
+      <form>
+        <label for="user_name"
+          >Name:
+          <input
+            type="text"
+            id="user_name"
+            placeholder="Enter your name"
+            required
+          /><br />
+        </label>
+        <legend>Choose your Marker</legend>
+        <label for="marker"
+          >X
+          <input type="radio" id="marker" name="marker" value="X" />
+        </label>
+        <label for="marker">O
+          <input type="radio" id="marker" name="marker" value="O" />
+        </label>
+        <button type="button" class="submit">Submit</button>
+      </form>
+    </dialog>
+    <div class="footer">&copy Tic-Tac-Toe. all rights reserved.</div>
+  </body>
+  <script src="./script2.js"></script>
 </html>
