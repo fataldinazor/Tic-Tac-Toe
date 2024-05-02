@@ -1,80 +1,88 @@
-'use strict'
+"use strict";
 
-function gameBoard(){
-    const mainContainer=document.querySelector('.mainContainer');
-    const rows=3;
-    const cols=3;
-    let board=[];
-    let set1=new Set();
+function gameBoard() {
+  const mainContainer = document.querySelector(".mainContainer");
+  const rows = 3;
+  const cols = 3;
+  let board = [];
+  let set1 = new Set();
 
-    const createGameboard=()=>{
-        const squareBoard=document.createElement('div');
-        squareBoard.classList.add('square');
-        for(let i=0;i<rows;i++){
-            const row=document.createElement('div');
-            row.classList.add('row');
-            for(let j=0;j<cols;j++){
-                const col=document.createElement('div');
-                col.classList.add('col');
-                col.setAttribute('id',`${i}${j}`);
-                set1.add(`${i}${j}`);
-                row.appendChild(col);
-            }
-            squareBoard.appendChild(row);
-        }
-        mainContainer.appendChild(squareBoard);
-        console.log(set1);
+  const createGameboard = () => {
+    const squareBoard = document.createElement("div");
+    squareBoard.classList.add("square");
+    for (let i = 0; i < rows; i++) {
+      const row = document.createElement("div");
+      row.classList.add("row");
+      for (let j = 0; j < cols; j++) {
+        const col = document.createElement("div");
+        col.classList.add("col");
+        col.setAttribute("id", `${i}${j}`);
+        set1.add(`${i}${j}`);
+        row.appendChild(col);
+      }
+      squareBoard.appendChild(row);
     }
+    mainContainer.appendChild(squareBoard);
+    console.log(set1);
+    // return set1;
+  };
 
-    const markBox=(marker)=>{
-        const boxes=document.querySelectorAll('.col');
-        boxes.forEach(function(box){
-            box.addEventListener('click',function(e){
-                box.textContent=marker;
-            })
-        })
-    }
+  const markBox = (marker) => {
+    const boxes = document.querySelectorAll(".col");
+    boxes.forEach(function (box) {
+      box.addEventListener("click", function (e) {
+        box.textContent = marker;
+      });
+    });
+  };
 
-    return{
-        set1,
-        createGameboard,
-        markBox,
-    };
+  return {
+    set1,
+    createGameboard,
+    markBox,
+  };
 }
 
-function playerDetails(){
-    const submitBtn=document.querySelector('.submit');
-    const dialog=document.querySelector('dialog');
+function player() {
+  const mainContainer = document.querySelector(".mainContainer");
 
-    const openModal=()=>{
-        dialog.showModal();
-    }
-    document.addEventListener('DOMContentLoaded',openModal());
+//   let playerName;
+//   let playerMarker;
+//   const playerDetails = () => {
+//     playerName = prompt("What is your Name?");
+//     do {
+//       playerMarker = prompt("Which Marker do you want?").toUpperCase();
+//     } while (playerMarker !== "O" && playerMarker !== "X");
 
-    submitBtn.addEventListener('click',processForm)
+//     return {
+//       playerName,
+//       playerMarker,
+//     };
+//   };
 
-    function processForm(){
-        const username=document.querySelector('#user_name').value;
-        const markerChoice=document.querySelector('#marker').value;
-        // console.log(username,markerChoice);        
-        dialog.close();
-        return{
-            username,
-            markerChoice
-        }
-    }    
-    return {
-        processForm,
-    }
+  const displayName = (playerName) => {
+    const displayDiv = document.createElement("div");
+    displayDiv.classList.add('playerDisplay');
+    displayDiv.textContent = playerName;
+    mainContainer.appendChild(displayDiv);
+  };
+
+  return { playerDetails, displayName };
 }
 
-function gameController(){
-    const game=gameBoard();
-    
-    game.createGameboard();
-    // game.markBox('x');
-    const playerInfo=playerDetails();
-    console.log(playerInfo);
+function gameController() {
+  const playerInfo = player();
+  const { playerName: username, playerMarker: marker } =
+    playerInfo.playerDetails();
+
+  console.log(username, marker);
+  playerInfo.displayName(username);
+
+
+
+  const game = gameBoard();
+
+  game.createGameboard();
 }
 
-const playGame=gameController();
+const playGame = gameController();
