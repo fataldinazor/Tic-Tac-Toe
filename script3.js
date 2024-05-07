@@ -23,12 +23,14 @@ function player() {
       dialog.close();
     }
   };
+
   const createPlayer = (userName, marker) => {
     return {
       name: userName,
       marker: marker,
     };
   };
+
   return { playerInfo, createPlayer };
 }
 
@@ -64,46 +66,22 @@ function gameBoard() {
     mainContainer.appendChild(nameContainer);
   }
 
-  const getAiMove = () => {
-    let ranNum1, ranNum2;
-    const boxes = document.querySelectorAll(".col");
-    do {
-      ranNum1 = Math.floor(Math.random() * 3);
-      ranNum2 = Math.floor(Math.random() * 3);
-    } while (!set1.has(`${ranNum1}${ranNum2}`));
-    return `${ranNum1}${ranNum2}`;    
-  };
-
-  const markBox = (marker) => {
-    const boxes = document.querySelectorAll(".col");
-    boxes.forEach(function (box) {
-      box.addEventListener("click", function (e) {
-        if (box.textContent === "") {
-            box.textContent = marker;
-            console.log(box.id);
-        }
-      });
-    });
-  };
-
   return {
     set1,
     displayPlayerName,
     createGameboard,
-    markBox,
-    getAiMove,
   };
 }
 
 const getPlayer = player();
 
-getPlayer.playerInfo(startGame);
+getPlayer.playerInfo(initGame);
 
-function startGame(name, marker) {
+function initGame(name, marker) {
   const game = gameBoard();
   game.displayPlayerName(name);
   game.createGameboard();
-
+  let set = game.set1;
   const player = getPlayer.createPlayer(name, marker);
 
   const ai = {
@@ -111,14 +89,96 @@ function startGame(name, marker) {
     marker: player.marker === "X" ? "O" : "X",
   };
 
-  let aiMove = game.getAiMove();
-
   let activePlayer = player.marker === "X" ? player : ai;
 
-  function switchPlayer() {
-    activePlayer = activePlayer === player ? ai : player;
-    return activePlayer;
+  function startGame(){
+    if(activePlayer===ai){
+      getAiMove();
+    }
+  }
+
+  
+  const boxes = document.querySelectorAll(".col");
+  boxes.forEach(function(box){
+    box.addEventListener('click',function(){
+      if(set.size>0){
+        if (box.textContent === "") {
+          box.textContent = player.marker;
+          console.log(box.id);
+          set.delete(box.id);
+          if(isWinning()===true){
+            console.log('The Player has Won the Match');
+            return player;
+          }
+          getAiMove();
+        }
+      }
+      else console.log('Game Over');
+    })
+  })
+  
+  const getAiMove = () => {
+    let ranNum1, ranNum2;
+    if(set.size>0){
+      do {
+        ranNum1 = Math.floor(Math.random() * 3);
+        ranNum2 = Math.floor(Math.random() * 3);
+      } while (!set.has(`${ranNum1}${ranNum2}`));
+      const box = document.getElementById(`${ranNum1}${ranNum2}`);
+      box.textContent=ai.marker;
+      set.delete(box.id);
+      if(isWinning()===true){
+        console.log('The AI has Won the Match');
+        return player;
+      }
+    }
+    else console.log('Game Over');
+  };
+  
+  const isWinning=()=>{
+    
+    for(let i=0;i<3;i++){
+      let tempSet1=new Set();
+      let tempSet2=new Set();
+      for(let j=0;j<3;j++){
+        const box1=document.getElementById(`${i}${j}`);
+        if(box1.textContent==='')
+        tempSet1.add('A');
+        else
+        tempSet1.add(box1.textContent);
+        const box2=document.getElementById(`${j}${i}`);
+        if(box2.textContent==='')
+        tempSet2.add('B');
+        else
+        tempSet2.add(box2.textContent);
+      }
+      if (tempSet1.size === 1 && (tempSet1.has('X') || tempSet1.has('O'))) return true;
+      if (tempSet2.size === 1 && (tempSet2.has('X') || tempSet2.has('O'))) return true;
+    }
+
+    let tempSet1 = new Set();
+    for (let i = 0; i < 3; i++) {
+      const box=document.getElementById(`${i}${2-i}`)
+      if(box.textContent==='')
+        tempSet1.add('A');
+      else
+      tempSet1.add(box.textContent);
+    }
+    if (tempSet1.size === 1 && (tempSet1.has('X') || tempSet1.has('O'))) return true;
+    tempSet1.clear();
+
+    for (let i = 0; i < 3; i++) {
+      const box=document.getElementById(`${i}${i}`)
+      if(box.textContent==='')
+        tempSet1.add('A');
+      else
+      tempSet1.add(box.textContent);
+    }
+    if (tempSet1.size === 1&& (tempSet1.has('X') || tempSet1.has('O'))) return true;
   }
   
-  
+  function displayResults(winner){
+    
+  }
+  startGame();
 }
