@@ -46,19 +46,19 @@ function gameBoard() {
 function player() {
   const mainContainer = document.querySelector(".mainContainer");
 
-//   let playerName;
-//   let playerMarker;
-//   const playerDetails = () => {
-//     playerName = prompt("What is your Name?");
-//     do {
-//       playerMarker = prompt("Which Marker do you want?").toUpperCase();
-//     } while (playerMarker !== "O" && playerMarker !== "X");
+  let playerName;
+  let playerMarker;
+  const playerDetails = () => {
+    playerName = prompt("What is your Name?");
+    do {
+      playerMarker = prompt("Which Marker do you want?").toUpperCase();
+    } while (playerMarker !== "O" && playerMarker !== "X");
 
-//     return {
-//       playerName,
-//       playerMarker,
-//     };
-//   };
+    return {
+      playerName,
+      playerMarker,
+    };
+  };
 
   const displayName = (playerName) => {
     const displayDiv = document.createElement("div");
